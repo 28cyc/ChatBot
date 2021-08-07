@@ -15,5 +15,11 @@ namespace ChatBot.Controllers
         {
             return $"hello {name}!!!";
         }
+
+        [HttpGet("[action]")]
+        public string Test2()
+        {
+            return $"hello!!!";
+        }
     }
 }
