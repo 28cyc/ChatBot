@@ -1,33 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using ChatBot.Interface;
 using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
-using System.Data;
 
-namespace ChatBot.Controllers
+namespace ChatBot.Dac
 {
-    [Route("api/[Controller]")]
-    [ApiController]
-    public class HelloController : ControllerBase
+    public class SeatDac : ISeatDac
     {
         private readonly IConfiguration _configuration;
 
-        public HelloController(IConfiguration config)
+        public SeatDac(IConfiguration config)
         {
             this._configuration = config;
         }
 
-        [HttpPost("[action]")]
-        public string Test([FromForm] string name)
-        {
-            return $"hello {name}!!!";
-        }
-
-        [HttpGet("[action]")]
-        public string Test2()
+        public string Test()
         {
             var connString = _configuration.GetConnectionString("ChatBotConn");
 
