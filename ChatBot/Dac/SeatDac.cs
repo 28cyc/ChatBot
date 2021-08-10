@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Odbc;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using ChatBot.Interface;
 using Microsoft.Extensions.Configuration;
+using System.Data.Common;
 
 namespace ChatBot.Dac
 {
@@ -18,12 +19,11 @@ namespace ChatBot.Dac
             this._configuration = config;
         }
 
-        public string Test()
+        public DataTable Test()
         {
             var connString = _configuration.GetConnectionString("ChatBotConn");
-
             DataTable dt = new DataTable();
-            string sql = @"select Capacity from SEAT";
+            string sql = @"select * from SEAT";
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 conn.Open();
@@ -32,8 +32,7 @@ namespace ChatBot.Dac
                 sqlAdapter.Fill(dt);
                 conn.Close();
             }
-
-            return dt.Rows[0]["Capacity"].ToString();
+            return dt;
         }
     }
 }

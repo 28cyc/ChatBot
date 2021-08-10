@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using ChatBot.Dac;
@@ -20,7 +21,7 @@ namespace ChatBot.Controllers
         }
 
         [HttpGet("[action]")]
-        public string Test()
+        public DataTable Test()
         {
             var a = seatDac.Test();
             return a;

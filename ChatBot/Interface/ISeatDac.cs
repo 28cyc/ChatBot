@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace ChatBot.Interface
 {
-    public interface ISeatDac // : IDac
+    public interface ISeatDac
     {
-        string Test();
+        DataTable Test();
     }
 }
