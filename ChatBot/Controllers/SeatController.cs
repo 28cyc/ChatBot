@@ -26,5 +26,12 @@ namespace ChatBot.Controllers
             var a = seatDac.Test();
             return a;
         }
+
+        [HttpPost("[action]")]
+        public DataTable TestId(int id)
+        {
+            var a = seatDac.TestId(id);
+            return a;
+        }
     }
 }

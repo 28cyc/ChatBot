@@ -34,5 +34,21 @@ namespace ChatBot.Dac
             }
             return dt;
         }
+        public DataTable TestId(int id)
+        {
+            var connString = _configuration.GetConnectionString("ChatBotConn");
+            DataTable dt = new DataTable();
+            string sql = @"select * from SEAT WHERE Seat_ID = @ID ";
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return dt;
+        }
     }
 }

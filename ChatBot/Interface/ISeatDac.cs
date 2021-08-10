@@ -11,5 +11,6 @@ namespace ChatBot.Interface
     public interface ISeatDac
     {
         DataTable Test();
+        DataTable TestId(int id);
     }
 }
