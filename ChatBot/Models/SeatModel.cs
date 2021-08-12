@@ -5,11 +5,26 @@ using System.Web;
 
 namespace ChatBot.Models
 {
-    public class SeatModel
+    public class DeskModel
     {
-        public int Seat_ID { get; set; }
-        public string Capacity { get; set; }
-        public string Status { get; set; }
-        public string Demand { get; set; }
+        /// <summary>
+        /// 桌號
+        /// </summary>
+        public int DeskNo { get; set; }
+
+        /// <summary>
+        /// 座位數
+        /// </summary>
+        public int Seat { get; set; }
+
+        /// <summary>
+        /// 桌子狀態：空桌/用餐中/已訂位/清潔中
+        /// </summary>
+        public string DeskStatus { get; set; }
+
+        /// <summary>
+        /// 呼叫：Y/N
+        /// </summary>
+        public string Calling { get; set; }
     }
 }
