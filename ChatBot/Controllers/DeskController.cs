@@ -10,21 +10,26 @@ namespace ChatBot.Controllers
 {
     public class DeskController : Controller
     {
-        Dac.DeskDac deskDac = new Dac.DeskDac();
+        Service.DeskService deskService = new Service.DeskService();
         public ActionResult Index()
         {
             return View("DeskIndex");
         }
 
+        /// <summary>
+        /// 取得所有桌子資料
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public JsonResult GetAllDesk()
         {
-            return Json(deskDac.getAllDesk(), JsonRequestBehavior.AllowGet);
+            return Json(deskService.getAllDesk(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public int GetFitDesk(int peopleNum)
         {
-            return deskDac.getFitDesk(peopleNum);
+            return deskService.getFitDesk(peopleNum);
         }
     }
 }

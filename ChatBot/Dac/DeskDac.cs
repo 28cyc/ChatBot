@@ -10,6 +10,10 @@ namespace ChatBot.Dac
 {
     public class DeskDac : _Dac
     {
+        /// <summary>
+        /// 取得所有桌子資料
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DeskModel> getAllDesk()
         {
             return DB.ExecuteQuery<DeskModel>("SELECT * FROM Desk"); ;
