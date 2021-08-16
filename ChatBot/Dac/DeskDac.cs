@@ -23,5 +23,23 @@ namespace ChatBot.Dac
         {
             return DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
         }
+
+        /// <summary>
+        /// 根據桌號呼叫服務or完成服務
+        /// </summary>
+        /// <param name="deskNo"></param>
+        /// <returns></returns>
+        public string callServer(int deskNo, string calling)
+        {
+            try
+            {
+                DB.ExecuteCommand("UPDATE Desk SET Calling = {0} WHERE DeskNo = {1}", new object[] { calling, deskNo });
+                return "執行成功";
+            }
+            catch
+            {
+                return "執行失敗";
+            }
+        }
     }
 }

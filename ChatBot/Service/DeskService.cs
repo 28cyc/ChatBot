@@ -23,5 +23,15 @@ namespace ChatBot.Service
         {
             return deskDac.getFitDesk(peopleNum);
         }
+
+        /// <summary>
+        /// 根據桌號呼叫服務or完成服務
+        /// </summary>
+        /// <param name="deskNo"></param>
+        /// <returns></returns>
+        public string callServer(int deskNo, string calling)
+        {
+            return deskDac.callServer(deskNo, calling);
+        }
     }
 }

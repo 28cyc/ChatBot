@@ -31,5 +31,16 @@ namespace ChatBot.Controllers
         {
             return deskService.getFitDesk(peopleNum);
         }
+
+        /// <summary>
+        /// 根據桌號呼叫服務or完成服務
+        /// </summary>
+        /// <param name="deskNo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string callServer(int deskNo, string calling)
+        {
+            return deskService.callServer(deskNo, calling);
+        }
     }
 }
