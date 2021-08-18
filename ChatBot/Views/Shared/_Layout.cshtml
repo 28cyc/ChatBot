@@ -22,6 +22,7 @@
             height: 30px;
             border-radius: 5px;
         }
+
         footer {
             position: absolute;
             bottom: 20px
@@ -31,6 +32,7 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
 </head>
 <body style="background-color:#F0F0F0">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -54,8 +56,8 @@
     <div class="container body-content">
         @RenderBody()
     </div>
-
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

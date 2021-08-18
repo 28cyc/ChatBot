@@ -19,8 +19,7 @@ namespace ChatBot.Controllers
 		[HttpGet]
 		public JsonResult getAllFood()
 		{
-			return Json(orderService.getAllFood(), JsonRequestBehavior.AllowGet);
+            return Json(orderService.getAllFood(), JsonRequestBehavior.AllowGet);
 		}
-
-	}
+    }
 }

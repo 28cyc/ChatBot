@@ -1,0 +1,27 @@
+﻿@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.2.js"></script>
+    <script src="~/ScriptsAngularJs/adUser-controller.js"></script>
+    <script src="~/ScriptsAngularJs/root-controller.js"></script>
+    <script src="http://localhost:9929/SignalR/js" type="text/javascript"></script>
+}
+
+<div ng-app="app">
+    <div ng-controller="AdUserCtrl">
+        <table data-toggle="table" class="table">
+            <tr class="tr-class-1">
+                <td>姓名</td>
+                <td>姓氏</td>
+                <td>名字</td>
+                <td>顯示名稱</td>
+                <td>狀態</td>
+            </tr>
+            <tr class="tr-class-3" ng-repeat="item in adUsers">
+                <td>{{item.Cn}}</td>
+                <td>{{item.Sn}}</td>
+                <td>{{item.GivenName}}</td>
+                <td>{{item.DisplayName}}</td>
+                <td>{{item.Status}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
