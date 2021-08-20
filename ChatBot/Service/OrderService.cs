@@ -18,5 +18,14 @@ namespace ChatBot.Service
 		{
 			return orderDac.getAllFood();
 		}
-	}
+
+        /// <summary>
+        /// 輸入電話號碼報到
+        /// </summary>
+        /// <returns></returns>
+        public bool CompareWithPhone(string Phone)
+        {
+            return orderDac.CompareWithPhone(Phone);
+        }
+    }
 }
