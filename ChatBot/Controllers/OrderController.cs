@@ -21,5 +21,15 @@ namespace ChatBot.Controllers
 		{
             return Json(orderService.getAllFood(), JsonRequestBehavior.AllowGet);
 		}
+
+        /// <summary>
+        /// 輸入電話號碼報到
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public bool CompareWithPhone(string Phone)
+        {
+            return orderService.CompareWithPhone(Phone);
+        }
     }
 }
