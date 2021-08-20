@@ -128,7 +128,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="ScriptsAngularJs\adUser-controller.js" />
     <Content Include="ScriptsAngularJs\root-controller.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -930,25 +929,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DeskController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Dac\DeskDac.cs" />
     <Compile Include="Dac\OrderDac.cs" />
     <Compile Include="Dac\_Dac.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ApiResult.cs" />
     <Compile Include="Models\FoodModel.cs" />
     <Compile Include="Models\DeskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DeskService.cs" />
     <Compile Include="Service\OrderService.cs" />
     <Compile Include="SignalR\Hubs\ChatHub.cs" />
-    <Compile Include="SignalR\Hubs\updateModifiedAdUsersHub.cs" />
+    <Compile Include="SignalR\Hubs\CallHub.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -957,8 +956,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Desk\DeskIndex.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Test\Chat.cshtml" />
-    <Content Include="Views\Test\adUser.cshtml" />
     <Content Include="Scripts\version.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

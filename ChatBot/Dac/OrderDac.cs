@@ -14,8 +14,7 @@ namespace ChatBot.Dac
 		/// <returns></returns>
 		public IEnumerable<FoodModel> getAllFood()
 		{
-			return DB.ExecuteQuery<FoodModel>("SELECT * FROM Food ");
+			return DB.ExecuteQuery<FoodModel>("SELECT * FROM Food");
 		}
-
-	}
+    }
 }

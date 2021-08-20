@@ -1,5 +1,6 @@
 ﻿using ChatBot.Dac;
 using ChatBot.Models;
+using ChatBot.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,10 @@ namespace ChatBot.Controllers
         [HttpPost]
         public string callServer(int deskNo, string calling)
         {
+            if (calling == "Y")
+            {
+                new CallHub().Update(deskNo, connId: String.Empty);
+            }
             return deskService.callServer(deskNo, calling);
         }
     }

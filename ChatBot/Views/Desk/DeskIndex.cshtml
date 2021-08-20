@@ -1,50 +1,59 @@
-﻿<div style="height:360px; display: flex; flex-direction: column;justify-content:space-between">
-    <div style="display: flex;justify-content:space-between">
-        <div id="1" class="desk" style="width:240px;height:120px;">
-            1號桌
-        </div>
-        <div id="2" class="desk" style="width:200px;height:120px;">
-            2號桌
-        </div>
-        <div id="3" class="desk" style="width:240px;height:120px;">
-            3號桌
-        </div>
-        <div id="4" class="desk" style="width:200px;height:120px;">
-            4號桌
-        </div>
-    </div>
+﻿@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.2.js"></script>
+    <script src="~/ScriptsAngularJs/root-controller.js"></script>
+    <script src="http://localhost:9929/SignalR/js" type="text/javascript"></script>
+}
 
-    <div style="display: flex;justify-content:space-between">
-        <div id="5" class="desk" style="width:120px;height:200px;">
-            5號桌
-        </div>
-        <div id="6" class="desk" style="width:120px;height:200px;">
-            6號桌
-        </div>
-        <div id="7" class="desk" style="width:120px;height:200px;">
-            7號桌
-        </div>
-        <div id="8" class="desk" style="width:120px;height:200px;">
-            8號桌
-        </div>
-        <div style="display: flex; flex-direction: column;justify-content:space-between">
-            <div id="9" class="desk" style="width:120px;height:90px;">
-                9號桌
+<div ng-app="app" ng-controller="CallCtrl">
+    <div style="height:360px; display: flex; flex-direction: column;justify-content:space-between">
+        <div style="display: flex;justify-content:space-between">
+            <div id="1" class="desk" style="width:240px;height:120px;">
+                1號桌
             </div>
-            <div id="11" class="desk" style="width:120px;height:90px;">
-                11號桌
+            <div id="2" class="desk" style="width:200px;height:120px;">
+                2號桌
+            </div>
+            <div id="3" class="desk" style="width:240px;height:120px;">
+                3號桌
+            </div>
+            <div id="4" class="desk" style="width:200px;height:120px;">
+                4號桌
             </div>
         </div>
-        <div style="display: flex; flex-direction: column;justify-content:space-between">
-            <div id="10" class="desk" style="width:120px;height:90px;">
-                10號桌
+
+        <div style="display: flex;justify-content:space-between">
+            <div id="5" class="desk" style="width:120px;height:200px;">
+                5號桌
             </div>
-            <div id="12" class="desk" style="width:120px;height:90px;">
-                12號桌
+            <div id="6" class="desk" style="width:120px;height:200px;">
+                6號桌
+            </div>
+            <div id="7" class="desk" style="width:120px;height:200px;">
+                7號桌
+            </div>
+            <div id="8" class="desk" style="width:120px;height:200px;">
+                8號桌
+            </div>
+            <div style="display: flex; flex-direction: column;justify-content:space-between">
+                <div id="9" class="desk" style="width:120px;height:90px;">
+                    9號桌
+                </div>
+                <div id="11" class="desk" style="width:120px;height:90px;">
+                    11號桌
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column;justify-content:space-between">
+                <div id="10" class="desk" style="width:120px;height:90px;">
+                    10號桌
+                </div>
+                <div id="12" class="desk" style="width:120px;height:90px;">
+                    12號桌
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <footer>
     <div style="display: flex">
         <span class="note" style="background-color:white"></span>空桌
@@ -53,6 +62,21 @@
         <span class="note" style="background-color:#02DF82"></span>清潔中
     </div>
 </footer>
+
+<script>
+    var app = angular.module('app', [])
+        .controller('CallCtrl', function ($scope, $rootScope, $http, $window) {
+            jQuery.support.cors = true;
+            $window.jQuery.connection.hub.url = $rootScope.SignalRUrl;
+            var myHub = $window.jQuery.connection.CallHub;
+            $window.jQuery.connection.hub.start();
+
+            myHub.client.callService = function (deskNo) {
+                deskService(deskNo);
+            };
+        }
+        );
+</script>
 
 <script type="text/javascript">
     var deskData = [];
@@ -74,7 +98,6 @@
     });
 
     function setDesk(deskNo) {
-        console.log(deskData);
         var desk = document.getElementById(deskNo);
         var deskInfo = deskData.find(desk => desk.DeskNo == deskNo);
         desk.style.backgroundColor = getDeskColor(deskInfo.DeskStatus);
@@ -98,5 +121,9 @@
             default:
                 return 'black';
         }
+    }
+
+    function deskService(deskNo) {
+        alert(deskNo+"桌呼叫了服務!");
     }
 </script>

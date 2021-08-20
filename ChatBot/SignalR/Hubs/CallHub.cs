@@ -4,28 +4,29 @@ using System.Linq;
 using System.Web;
 using ChatBot.Models;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ChatBot.SignalR.Hubs
 {
-    public class updateModifiedAdUsersHub : Hub
+    [HubName("CallHub")]
+    public class CallHub : Hub
     {
-        static IHubContext HubContext = GlobalHost.ConnectionManager.GetHubContext<updateModifiedAdUsersHub>();
+        static IHubContext HubContext = GlobalHost.ConnectionManager.GetHubContext<CallHub>();
 
-
-        public void Update(
-           IEnumerable<AdUser> adUsers, String connId)
+        public void Update(int deskNo, String connId)
         {
 
             if (!String.IsNullOrEmpty(connId))
             {
                 //Send back to certain client with Connection id
-                HubContext.Clients.Client(connId).updateModifiedAdUsers(adUsers);
+                HubContext.Clients.Client(connId).callService(deskNo);
             }
             else
             {
                 //Send back to all connections
-                HubContext.Clients.All.updateModifiedAdUsers(adUsers);
+                HubContext.Clients.All.callService(deskNo);
             }
         }
+
     }
 }
