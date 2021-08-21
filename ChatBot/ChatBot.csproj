@@ -937,6 +937,7 @@
     </Compile>
     <Compile Include="Models\FoodModel.cs" />
     <Compile Include="Models\DeskModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DeskService.cs" />
     <Compile Include="Service\OrderService.cs" />

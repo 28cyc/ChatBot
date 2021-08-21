@@ -31,5 +31,11 @@ namespace ChatBot.Controllers
         {
             return orderService.CompareWithPhone(Phone);
         }
+
+        [HttpPost]
+        public void jsontest(OrderModel model)
+        {
+
+        }
     }
 }
