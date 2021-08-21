@@ -18,6 +18,7 @@ namespace ChatBot.Dac
 		{
 			return DB.ExecuteQuery<FoodModel>("SELECT * FROM Food");
 		}
+
         /// <summary>
         /// 輸入電話號碼報到
         /// </summary>
@@ -29,6 +30,7 @@ namespace ChatBot.Dac
                                     where Phone = {0}";
             return DB.ExecuteQuery<string>(sql, Phone).Any();
         }
+
         /// <summary>
         /// 點餐
         /// </summary>
@@ -46,6 +48,32 @@ namespace ChatBot.Dac
             {
                 return "點餐失敗";
             }
+        }
+
+        /// <summary>
+        /// 取得目前所有訂單資訊
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrderFormModel> GetOrderForm()
+        {
+            return DB.ExecuteQuery<OrderFormModel>("SELECT * FROM OrderForm");
+        }
+
+        /// <summary>
+        /// 依照訂單編號取得訂單餐點內容
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrderDetailModel> GetOrderDetail(int OrderFormID)
+        {
+            string sql = @"SELECT OrderDetail.Food_ID AS Food_ID, 
+                                  FoodAmt AS Food_AMT, 
+                                  OrderForm_ID AS OrderForm_ID, 
+                                  FoodName AS Food_Name, 
+                                  FoodPrice AS Food_Price
+                           FROM OrderDetail JOIN Food 
+                           ON OrderDetail.Food_ID=Food.Food_ID
+                           WHERE OrderForm_ID = {0} ";
+            return DB.ExecuteQuery<OrderDetailModel>(sql, OrderFormID);
         }
     }
 }
