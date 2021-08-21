@@ -33,9 +33,9 @@ namespace ChatBot.Controllers
         }
 
         [HttpPost]
-        public void jsontest(OrderModel model)
+        public string OrderFood(OrderModel model)
         {
-
+            return orderService.OrderFood(model.DESK_NO, model.FOOD_LIST);
         }
     }
 }

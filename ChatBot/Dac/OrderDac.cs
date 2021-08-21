@@ -1,6 +1,8 @@
 ﻿using ChatBot.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -27,6 +29,23 @@ namespace ChatBot.Dac
                                     where Phone = {0}";
             return DB.ExecuteQuery<string>(sql, Phone).Any();
         }
-
+        /// <summary>
+        /// 點餐
+        /// </summary>
+        /// <returns></returns>
+        public string OrderFood(int DeskNo, List<FoodListMoel> FOOD_LIST)
+        {
+            try
+            {
+                bool flag = false;
+                string sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
+                FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, DeskNo }));
+                return "點餐成功";
+            }
+            catch
+            {
+                return "點餐失敗";
+            }
+        }
     }
 }

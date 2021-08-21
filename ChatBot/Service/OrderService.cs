@@ -27,5 +27,14 @@ namespace ChatBot.Service
         {
             return orderDac.CompareWithPhone(Phone);
         }
+
+        /// <summary>
+        /// 點餐
+        /// </summary>
+        /// <returns></returns>
+        public string OrderFood(int DeskNo, List<FoodListMoel> FOOD_LIST)
+        {
+            return orderDac.OrderFood(DeskNo, FOOD_LIST);
+        }
     }
 }
