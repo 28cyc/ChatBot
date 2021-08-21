@@ -37,7 +37,6 @@ namespace ChatBot.Dac
         {
             try
             {
-                bool flag = false;
                 string sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
                 FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, DeskNo }));
                 return "點餐成功";

@@ -32,9 +32,9 @@ namespace ChatBot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public int GetFitDesk(int peopleNum)
+        public JsonResult GetFitDesk(int peopleNum)
         {
-            return deskService.getFitDesk(peopleNum);
+            return Json(deskService.getFitDesk(peopleNum));
         }
 
         /// <summary>

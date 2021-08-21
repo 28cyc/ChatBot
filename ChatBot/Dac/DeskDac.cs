@@ -6,6 +6,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Web;
 
+
 namespace ChatBot.Dac
 {
     public class DeskDac : _Dac
@@ -23,9 +24,41 @@ namespace ChatBot.Dac
         /// 內用回傳桌號
         /// </summary>
         /// <returns></returns>
-        public int getFitDesk(int peopleNum)
+        public object getFitDesk(int peopleNum, DateTime DateTimeNow)
         {
-            return DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+            int CustomerID = 0;
+
+            //取得可入座桌號
+            int DeskNo = DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+
+            //新增顧客資料(內用故無需輸入個資預設"內用顧客")
+            try
+            {
+                DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客')");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            //建立訂單(根據取得之桌號與顧客編號建立訂單)
+            try
+            {
+                CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
+                DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})", 
+                    new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID});
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            //取得訂單編號
+            int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
+
+            //將桌號、訂單編號存入Json格式並回傳
+            var DeskOrderNo = new { DeskNo = DeskNo, OrderFormID = OrderFormID };
+            return DeskOrderNo;
         }
 
         /// <summary>

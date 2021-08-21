@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ChatBot.Service
 {
@@ -23,9 +24,10 @@ namespace ChatBot.Service
         /// 內用回傳桌號
         /// </summary>
         /// <returns></returns>
-        public int getFitDesk(int peopleNum)
+        public object getFitDesk(int peopleNum)
         {
-            return deskDac.getFitDesk(peopleNum);
+            DateTime DateTimeNow = DateTime.Now;
+            return deskDac.getFitDesk(peopleNum, DateTimeNow);
         }
 
         /// <summary>
