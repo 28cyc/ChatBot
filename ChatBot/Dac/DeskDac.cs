@@ -30,35 +30,27 @@ namespace ChatBot.Dac
 
             //取得可入座桌號
             int DeskNo = DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
-
-            //新增顧客資料(內用故無需輸入個資預設"內用顧客")
-            try
+            if (DeskNo != 0)
             {
+                //新增顧客資料(內用故無需輸入個資預設"內用顧客")
                 DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客')");
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            //建立訂單(根據取得之桌號與顧客編號建立訂單)
-            try
-            {
+               
+                //建立訂單(根據取得之桌號與顧客編號建立訂單)
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
-                DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})", 
-                    new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID});
+                DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
+                    new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID });
+                
+                //取得訂單編號
+                int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
+
+                //將桌號、訂單編號存入Json格式並回傳
+                var DeskOrderNo = new { DeskNo = DeskNo, OrderFormID = OrderFormID };
+                return DeskOrderNo;
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return 0;
             }
-
-            //取得訂單編號
-            int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
-
-            //將桌號、訂單編號存入Json格式並回傳
-            var DeskOrderNo = new { DeskNo = DeskNo, OrderFormID = OrderFormID };
-            return DeskOrderNo;
         }
 
         /// <summary>
