@@ -8,15 +8,44 @@
         .desk {
             border-width: 1px;
             border-style: solid;
-            border-color: #4F4F4F;
+            border-color: #8E8E8E;
             border-radius: 20px;
             text-align: center;
+            position: relative;
         }
+
+            .desk p {
+                /*垂直置中*/
+            }
+
+            .desk img {
+                width: 60px;
+                transform: scaleX(-1);
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                right: 0;
+            }
+
+            .desk span {
+                position: absolute;
+                margin-right: 10px;
+                top: 0;
+                left: 0;
+                border-width: 2px;
+                border-style: solid;
+                border-color: white;
+                border-radius: 20px;
+                background-color: #8E8E8E;
+                color: white;
+                width: 30px;
+                height: 25px;
+            }
 
         .note {
             border-width: 1px;
             border-style: solid;
-            border-color: #4F4F4F;
+            border-color: #8E8E8E;
             border-radius: 20px;
             width: 30px;
             height: 30px;
@@ -26,6 +55,28 @@
         footer {
             position: absolute;
             bottom: 20px
+        }
+
+        #orderList {
+            height: auto;
+            background-color: white;
+            border-radius: 20px;
+        }
+
+        #orderDetail {
+            height: auto;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #8E8E8E;
+            border-radius: 20px;
+        }
+
+        button {
+            width: 70px;
+            height: 35px;
+            border-style: none;
+            border-radius: 10px;
+            color:white;
         }
     </style>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
@@ -44,7 +95,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("座位管理", "Index", "Desk", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("點餐管理", "Index", "Desk", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("點餐管理", "Index", "Order", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("結算系統", "Index", "Desk", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
