@@ -22,7 +22,11 @@ namespace ChatBot.Dac
         /// <returns></returns>
         public bool CompareWithPhone(string Phone)
         {
-            string sql = "select Phone from OrderForm O join Customer C on O.Customer_ID = C.Customer_ID where Phone = {0}";
+            string sql =@"select Phone from OrderForm O 
+                                    join Customer C on O.Customer_ID = C.Customer_ID 
+                                    where Phone = {0}";
             return DB.ExecuteQuery<string>(sql, Phone).Any();
         }
-    }}
+
+    }
+}
