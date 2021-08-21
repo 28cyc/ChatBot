@@ -19,9 +19,22 @@ namespace ChatBot.Service
             return deskDac.getAllDesk();
         }
 
+        /// <summary>
+        /// 內用回傳桌號
+        /// </summary>
+        /// <returns></returns>
         public int getFitDesk(int peopleNum)
         {
             return deskDac.getFitDesk(peopleNum);
+        }
+
+        /// <summary>
+        /// 預約報到根據輸入之電話號碼查詢桌號
+        /// </summary>
+        /// <returns></returns>
+        public int getReserveDesk(string Phone)
+        {
+            return deskDac.getReserveDesk(Phone);
         }
 
         /// <summary>
