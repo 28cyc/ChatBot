@@ -1,6 +1,6 @@
 ﻿<br />
 <div style="display: flex;width:100%;justify-content:space-between">
-    <div id="orderList" style="width: 30%;">
+    <div id="orderList" style="width: 35%;">
         <table data-toggle="table" class="table">
             @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.oederList)
             {
@@ -15,7 +15,7 @@
             }
         </table>
     </div>
-    <div style="width:65%">
+    <div style="width:60%">
         <div id="orderContent">
             <div style="display: flex;justify-content:space-between">
                 <h3>桌號：</h3>
@@ -30,13 +30,13 @@
         </div>
         <div id="orderDetail">
             <table data-toggle="table" class="table">
-                <tr>
-                    <td>餐點名字</td>
-                    <td>123</td>
+                <tr id="orderItem">
+                    <td></td>
+                    <td style="text-align:right"></td>
                 </tr>
-                <tr>
+                <tr id="orderTotal">
                     <td>總計</td>
-                    <td>$12345466</td>
+                    <td style="text-align:right">0</td>
                 </tr>
             </table>
         </div>
@@ -54,7 +54,6 @@
     }
 
     function getOrderDetail(OrderFormID) {
-        alert(OrderFormID);
         $.ajax({
             type: 'POST',
             url: "/Order/getOrderDetail",
@@ -63,11 +62,25 @@
                 OrderFormID: OrderFormID,
             },
             success: function (data) {
-                debugger
+                setOrderDetail(data);
             },
             error: function (data) {
                 alert("錯誤!");
             }
         });
+    }
+
+    function setOrderDetail(data) {
+        var orderItem = document.getElementById("orderItem");
+        var orderTotal = document.getElementById("orderTotal");
+        var foodNameString = "";
+        var foodPriceString = "";
+        var foodTotal = 0;
+        data.forEach(food => foodNameString += "<p>" + food.Food_Name + "</p>");
+        data.forEach(food => foodPriceString += "<p>" + food.Food_Price.toLocaleString() + "</p>");
+        data.forEach(food => foodTotal += food.Food_Price);
+        orderItem.getElementsByTagName("td")[0].innerHTML = foodNameString;
+        orderItem.getElementsByTagName("td")[1].innerHTML = foodPriceString;
+        orderTotal.getElementsByTagName("td")[1].innerHTML = foodTotal.toLocaleString();
     }
 </script>
