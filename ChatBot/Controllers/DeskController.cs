@@ -27,10 +27,24 @@ namespace ChatBot.Controllers
             return Json(deskService.getAllDesk(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 內用回傳桌號
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public int GetFitDesk(int peopleNum)
         {
             return deskService.getFitDesk(peopleNum);
+        }
+
+        /// <summary>
+        /// 預約報到根據輸入之電話號碼查詢桌號
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public int getReserveDesk(string Phone)
+        {
+            return deskService.getReserveDesk(Phone);
         }
 
         /// <summary>
@@ -47,5 +61,7 @@ namespace ChatBot.Controllers
             }
             return deskService.callServer(deskNo, calling);
         }
+
+        
     }
 }

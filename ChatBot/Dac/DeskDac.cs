@@ -19,9 +19,25 @@ namespace ChatBot.Dac
             return DB.ExecuteQuery<DeskModel>("SELECT * FROM Desk"); ;
         }
 
+        /// <summary>
+        /// 內用回傳桌號
+        /// </summary>
+        /// <returns></returns>
         public int getFitDesk(int peopleNum)
         {
             return DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 預約報到根據輸入之電話號碼查詢桌號
+        /// </summary>
+        /// <returns></returns>
+        public int getReserveDesk(string Phone)
+        {
+            return DB.ExecuteQuery<int>(@"select O.DeskNo from Desk D 
+                                            join OrderForm O on D.DeskNo = O.DeskNo
+                                            join Customer C on O.Customer_ID = C.Customer_ID
+                                            where OrderStatus = '預約' and Phone = {0}", Phone).FirstOrDefault();
         }
 
         /// <summary>
