@@ -5,7 +5,7 @@
             @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.oederList)
             {
                 <tr onclick="showDetail(@Json.Encode(@item))" style="cursor: pointer;">
-                    <td><h2>@item.DeskNo</h2></td>
+                    <td width="20%" style="text-align:center"><h2>@item.DeskNo</h2></td>
                     <td>
                         <p>人數：@item.PeopleNum</p>
                         <p>訂單狀態：@item.OrderStatus</p>
@@ -31,8 +31,8 @@
         <div id="orderDetail">
             <table data-toggle="table" class="table">
                 <tr id="orderItem">
-                    <td></td>
-                    <td style="text-align:right"></td>
+                    <td>尚無資料</td>
+                    <td style="text-align:right">0</td>
                 </tr>
                 <tr id="orderTotal">
                     <td>總計</td>
@@ -71,16 +71,22 @@
     }
 
     function setOrderDetail(data) {
-        var orderItem = document.getElementById("orderItem");
-        var orderTotal = document.getElementById("orderTotal");
-        var foodNameString = "";
-        var foodPriceString = "";
-        var foodTotal = 0;
-        data.forEach(food => foodNameString += "<p>" + food.Food_Name + "</p>");
-        data.forEach(food => foodPriceString += "<p>" + food.Food_Price.toLocaleString() + "</p>");
-        data.forEach(food => foodTotal += food.Food_Price);
-        orderItem.getElementsByTagName("td")[0].innerHTML = foodNameString;
-        orderItem.getElementsByTagName("td")[1].innerHTML = foodPriceString;
-        orderTotal.getElementsByTagName("td")[1].innerHTML = foodTotal.toLocaleString();
+        var orderItemTd = document.getElementById("orderItem").getElementsByTagName("td");
+        var orderTotalTd = document.getElementById("orderTotal").getElementsByTagName("td");
+        var foodNameString = "", foodPriceString = "", foodTotal = 0;
+        if (data.length == 0) {
+            foodNameString = "尚未點餐";
+            foodPriceString = "0";
+            foodTotal = "0";
+        } else {
+            data.forEach(function (food) {
+                foodNameString += "<p>" + food.Food_Name + "</p>";
+                foodPriceString += "<p>" + food.Food_Price.toLocaleString() + "</p>";
+                foodTotal += food.Food_Price;
+            });
+        }
+        orderItemTd[0].innerHTML = foodNameString;
+        orderItemTd[1].innerHTML = foodPriceString;
+        orderTotalTd[1].innerHTML = foodTotal.toLocaleString();
     }
 </script>

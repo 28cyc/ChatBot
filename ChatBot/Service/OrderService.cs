@@ -36,5 +36,23 @@ namespace ChatBot.Service
         {
             return orderDac.OrderFood(DeskNo, FOOD_LIST);
         }
+
+        /// <summary>
+        /// 取得目前所有訂單資訊
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrderFormModel> GetOrderForm()
+        {
+            return orderDac.GetOrderForm();
+        }
+
+        /// <summary>
+        /// 依照訂單編號取得訂單餐點內容
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrderDetailModel> GetOrderDetail(int OrderFormID)
+        {
+            return orderDac.GetOrderDetail(OrderFormID);
+        }
     }
 }

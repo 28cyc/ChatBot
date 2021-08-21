@@ -1,4 +1,5 @@
 ﻿using ChatBot.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +15,8 @@ namespace ChatBot.Controllers
 
         public ActionResult Index()
         {
-            List<OrderFormModel> orders = new List<OrderFormModel>();
-            orders.Add(new OrderFormModel()
-            {
-                OrderForm_ID = 1,
-                DeskNo = 3,
-                PeopleNum = 5,
-                OrderStatus = "未出餐",
-                Memo = "要一個兒童椅",
-                EatingTime = DateTime.Now
-            });
-            orders.Add(new OrderFormModel()
-            {
-                OrderForm_ID = 2,
-                DeskNo = 4,
-                PeopleNum = 4,
-                OrderStatus = "已出餐",
-                Memo = "無",
-                EatingTime = DateTime.Now
-            });
-
-            ViewBag.oederList = orders;
+            var result = orderService.GetOrderForm();
+            ViewBag.oederList = result.ToList();
             return View("OrderIndex");
         }
 
@@ -71,25 +53,7 @@ namespace ChatBot.Controllers
 
 		public JsonResult getOrderDetail(int OrderFormID)
         {
-
-            List<OrderDetailModel> orderDetails = new List<OrderDetailModel>();
-            orderDetails.Add(new OrderDetailModel()
-            {
-                OrderForm_ID = 1,
-                Food_Name = "豬排飯",
-                Food_Price = 1180,
-                Food_AMT = 2,
-                Food_ID = 3
-            });
-            orderDetails.Add(new OrderDetailModel()
-            {
-                OrderForm_ID = 2,
-                Food_Name = "玉米濃湯",
-                Food_Price = 45,
-                Food_AMT = 1,
-                Food_ID = 4
-            });
-            return Json(orderDetails);
+            return Json(orderService.GetOrderDetail(OrderFormID).ToList());
         }
     }
 }
