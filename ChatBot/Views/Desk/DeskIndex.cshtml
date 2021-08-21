@@ -8,46 +8,58 @@
     <div style="height:360px; display: flex; flex-direction: column;justify-content:space-between">
         <div style="display: flex;justify-content:space-between">
             <div id="1" class="desk" style="width:240px;height:120px;">
-                1號桌
+                <p></p>
+                <span>1</span>
             </div>
             <div id="2" class="desk" style="width:200px;height:120px;">
-                2號桌
+                <p></p>
+                <span>2</span>
             </div>
             <div id="3" class="desk" style="width:240px;height:120px;">
-                3號桌
+                <p></p>
+                <span>3</span>
             </div>
             <div id="4" class="desk" style="width:200px;height:120px;">
-                4號桌
+                <p></p>
+                <span>4</span>
             </div>
         </div>
 
         <div style="display: flex;justify-content:space-between">
             <div id="5" class="desk" style="width:120px;height:200px;">
-                5號桌
+                <p></p>
+                <span>5</span>
             </div>
             <div id="6" class="desk" style="width:120px;height:200px;">
-                6號桌
+                <p></p>
+                <span>6</span>
             </div>
             <div id="7" class="desk" style="width:120px;height:200px;">
-                7號桌
+                <p></p>
+                <span>7</span>
             </div>
             <div id="8" class="desk" style="width:120px;height:200px;">
-                8號桌
+                <p></p>
+                <span>8</span>
             </div>
             <div style="display: flex; flex-direction: column;justify-content:space-between">
                 <div id="9" class="desk" style="width:120px;height:90px;">
-                    9號桌
+                    <p></p>
+                    <span>9</span>
                 </div>
                 <div id="11" class="desk" style="width:120px;height:90px;">
-                    11號桌
+                    <p></p>
+                    <span>11</span>
                 </div>
             </div>
             <div style="display: flex; flex-direction: column;justify-content:space-between">
                 <div id="10" class="desk" style="width:120px;height:90px;">
-                    10號桌
+                    <p></p>
+                    <span>10</span>
                 </div>
                 <div id="12" class="desk" style="width:120px;height:90px;">
-                    12號桌
+                    <p></p>
+                    <span>12</span>
                 </div>
             </div>
         </div>
@@ -81,6 +93,10 @@
 <script type="text/javascript">
     var deskData = [];
     $(document).ready(function () {
+        loadDeskData();
+    });
+
+    function loadDeskData() {
         $.ajax({
             type: "GET",
             url: "/Desk/GetAllDesk",
@@ -95,13 +111,17 @@
                 alert("座位資料讀取失敗");
             }
         });
-    });
+    }
 
     function setDesk(deskNo) {
-        var desk = document.getElementById(deskNo);
-        var deskInfo = deskData.find(desk => desk.DeskNo == deskNo);
+        var desk = document.getElementById(deskNo); 
+        var deskInfo = deskData.find(desk => desk.DeskNo == deskNo); 
+
         desk.style.backgroundColor = getDeskColor(deskInfo.DeskStatus);
-        desk.innerHTML = deskInfo.Seat + "人座";
+        desk.getElementsByTagName("p")[0].innerHTML = deskInfo.Seat + "人座";
+        if (deskInfo.Calling == "Y") {
+            alertImg(deskNo);
+        }
     }
 
     function getDeskColor(deskStatus) {
@@ -124,6 +144,35 @@
     }
 
     function deskService(deskNo) {
-        alert(deskNo+"桌呼叫了服務!");
+        alert(deskNo + "桌呼叫了服務!");
+        alertImg(deskNo);
+    }
+
+    function alertImg(deskNo) {
+        var desk = document.getElementById(deskNo);
+        var img = document.createElement("img");
+        img.setAttribute("onclick", "serviceComplete(" + deskNo + ")");
+        img.src = "https://image.flaticon.com/icons/png/512/1636/1636054.png";
+        desk.appendChild(img);
+    }
+
+    function serviceComplete(deskNo) {
+        if (confirm("已完成" + deskNo + "桌的呼叫服務")) {
+            $.ajax({
+                type: 'POST',
+                url: "/Desk/callServer",
+                dataType: 'text',
+                data: {
+                    deskNo: deskNo,
+                    calling: "N"
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (data) {
+                    alert("錯誤!");
+                }
+            });
+        }     
     }
 </script>
