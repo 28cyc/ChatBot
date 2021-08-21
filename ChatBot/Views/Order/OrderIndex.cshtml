@@ -1,0 +1,73 @@
+﻿<br />
+<div style="display: flex;width:100%;justify-content:space-between">
+    <div id="orderList" style="width: 30%;">
+        <table data-toggle="table" class="table">
+            @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.oederList)
+            {
+                <tr onclick="showDetail(@Json.Encode(@item))" style="cursor: pointer;">
+                    <td><h2>@item.DeskNo</h2></td>
+                    <td>
+                        <p>人數：@item.PeopleNum</p>
+                        <p>訂單狀態：@item.OrderStatus</p>
+                        <p>用餐時間：@item.EatingTime</p>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div style="width:65%">
+        <div id="orderContent">
+            <div style="display: flex;justify-content:space-between">
+                <h3>桌號：</h3>
+                <div style="display: flex;">
+                    <button id="foodDone" style="background-color:#66B3FF">出餐</button>
+                    <button id="checkout" style="background-color:#FF7575">結帳</button>
+                </div>
+            </div>
+            <p>人數：</p>
+            <p>訂單狀態：</p>
+            <p>備註：</p>
+        </div>
+        <div id="orderDetail">
+            <table data-toggle="table" class="table">
+                <tr>
+                    <td>餐點名字</td>
+                    <td>123</td>
+                </tr>
+                <tr>
+                    <td>總計</td>
+                    <td>$12345466</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showDetail(data) {
+        var orderContent = document.getElementById("orderContent");
+        orderContent.getElementsByTagName("h3")[0].innerHTML = "桌號：" + data.DeskNo;
+        orderContent.getElementsByTagName("p")[0].innerHTML = "人數：" + data.PeopleNum;
+        orderContent.getElementsByTagName("p")[1].innerHTML = "訂單狀態：" + data.OrderStatus;
+        orderContent.getElementsByTagName("p")[2].innerHTML = "備註：" + data.Memo;
+        getOrderDetail(data.OrderForm_ID);
+    }
+
+    function getOrderDetail(OrderFormID) {
+        alert(OrderFormID);
+        $.ajax({
+            type: 'POST',
+            url: "/Order/getOrderDetail",
+            dataType: 'json',
+            data: {
+                OrderFormID: OrderFormID,
+            },
+            success: function (data) {
+                debugger
+            },
+            error: function (data) {
+                alert("錯誤!");
+            }
+        });
+    }
+</script>
