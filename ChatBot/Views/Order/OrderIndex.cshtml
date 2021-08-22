@@ -1,29 +1,58 @@
 ﻿<br />
 <div style="display: flex;width:100%;justify-content:space-between">
-    <div id="orderList" style="width: 35%;">
-        <table data-toggle="table" class="table">
-            @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.oederList)
-            {
-                <tr onclick="showDetail(@Json.Encode(@item))" style="cursor: pointer;">
-                    <td width="20%" style="text-align:center"><h2>@item.DeskNo</h2></td>
-                    <td>
-                        <p>人數：@item.PeopleNum</p>
-                        <p>訂單狀態：@item.OrderStatus</p>
-                        <p>用餐時間：@item.EatingTime</p>
-                    </td>
-                </tr>
-            }
-        </table>
+    <div style="width: 35%;">
+        <div style="display: flex;width: 70%;justify-content:space-between;margin:0 auto;">
+            <button class="listBtn" onclick="currentList()"><h4>現場</h4></button>
+            <button class="listBtn" onclick="reserveList()"><h4>預約</h4></button>
+        </div>
+        <div id="orderList">
+            @*現場清單*@
+            <table data-toggle="table" class="table" id="currentList">
+                @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.orderListCurrent)
+                {
+                    <tr id="@item.OrderForm_ID" onclick="showDetail(@Json.Encode(@item))" style="cursor: pointer;">
+                        <td width="20%" style="text-align:center"><h2>@item.DeskNo</h2></td>
+                        <td>
+                            <p>人數：@item.PeopleNum</p>
+                            @if (@item.OrderStatus == "未出餐")
+                            {
+                            <p><span>訂單狀態：</span><span style="color:red">@item.OrderStatus</span></p>
+                            }
+                            else
+                            { 
+                                <p>訂單狀態：@item.OrderStatus</p>
+                            }
+                            <p>用餐時間：@item.EatingTime</p>
+                        </td>
+                    </tr>
+                }
+            </table>
+            @*預約清單*@
+            <table data-toggle="table" class="table" id="reserveList" style="display:none">
+                @foreach (var item in (List<ChatBot.Models.OrderFormModel>)ViewBag.orderListReserve)
+                {
+                    <tr id="@item.OrderForm_ID" onclick="showDetail(@Json.Encode(@item))" style="cursor: pointer;">
+                        <td width="20%" style="text-align:center"><h2>@item.DeskNo</h2></td>
+                        <td>
+                            <p>人數：@item.PeopleNum</p>
+                            <p>訂單狀態：@item.OrderStatus</p>
+                            <p>用餐時間：@item.EatingTime</p>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
     <div style="width:60%">
         <div id="orderContent">
             <div style="display: flex;justify-content:space-between">
                 <h3>桌號：</h3>
                 <div style="display: flex;">
-                    <button id="foodDone" style="background-color:#66B3FF">出餐</button>
-                    <button id="checkout" style="background-color:#FF7575">結帳</button>
+                    <button id="foodDone" class="contentBtn" style="background-color:#66B3FF;display:none" onclick="foodDone()">完成出餐</button>
+                    @*<button id="checkout" class="contentBtn" style="background-color:#FF7575;display:none">結帳</button>*@
                 </div>
             </div>
+            <p>訂單編號：</p>
             <p>人數：</p>
             <p>訂單狀態：</p>
             <p>備註：</p>
@@ -44,12 +73,28 @@
 </div>
 
 <script type="text/javascript">
+    var selectedDesk = 0;
+
     function showDetail(data) {
         var orderContent = document.getElementById("orderContent");
-        orderContent.getElementsByTagName("h3")[0].innerHTML = "桌號：" + data.DeskNo;
-        orderContent.getElementsByTagName("p")[0].innerHTML = "人數：" + data.PeopleNum;
-        orderContent.getElementsByTagName("p")[1].innerHTML = "訂單狀態：" + data.OrderStatus;
-        orderContent.getElementsByTagName("p")[2].innerHTML = "備註：" + data.Memo;
+        $('#currentList tr').css('background-color', '');
+        $('#reserveList tr').css('background-color', '');
+        $('#' + data.OrderForm_ID).css('background-color', '#E0E0E0');
+        selectedDesk = data.DeskNo;
+        orderContent.getElementsByTagName("h3")[0].innerHTML = "桌號：" + selectedDesk;
+        orderContent.getElementsByTagName("p")[0].innerHTML = "訂單編號：" + data.OrderForm_ID;
+        orderContent.getElementsByTagName("p")[1].innerHTML = "人數：" + data.PeopleNum;
+        orderContent.getElementsByTagName("p")[2].innerHTML = "訂單狀態：" + data.OrderStatus;
+        orderContent.getElementsByTagName("p")[3].innerHTML = "備註：" + (data.Memo != "" ? data.Memo : "無");
+        if (selectedDesk != 0 || data.OrderStatus == '未出餐') {
+            $('#foodDone').hide();
+            //$('#checkout').hide();
+        }
+        if (selectedDesk != 0 && data.OrderStatus == '未出餐') {
+            orderContent.getElementsByTagName("p")[2].innerHTML = "訂單狀態：<span style='color: red;'>" + data.OrderStatus + "</span>";
+            $('#foodDone').show();
+            //$('#checkout').show();
+        }
         getOrderDetail(data.OrderForm_ID);
     }
 
@@ -80,13 +125,27 @@
             foodTotal = "0";
         } else {
             data.forEach(function (food) {
-                foodNameString += "<p>" + food.Food_Name + "</p>";
-                foodPriceString += "<p>" + food.Food_Price.toLocaleString() + "</p>";
-                foodTotal += food.Food_Price;
+                foodNameString += "<p>" + food.Food_Name + " x " + food.Food_AMT + "</p>";
+                foodPriceString += "<p>" + food.Food_Unit_Price.toLocaleString()+ " x " + food.Food_AMT + "</p>";
+                foodTotal += food.Food_Total_Price;
             });
         }
         orderItemTd[0].innerHTML = foodNameString;
         orderItemTd[1].innerHTML = foodPriceString;
         orderTotalTd[1].innerHTML = foodTotal.toLocaleString();
+    }
+
+    function currentList() {
+        $('#currentList').show();
+        $('#reserveList').hide();
+    }
+
+    function reserveList() {
+        $('#currentList').hide();
+        $('#reserveList').show();
+    }
+
+    function foodDone() {
+        alert("已送達第" + selectedDesk + "桌所有餐點");
     }
 </script>

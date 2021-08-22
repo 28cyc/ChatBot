@@ -9,7 +9,8 @@ namespace ChatBot.Models
     {
         public int Food_ID { get; set; }
         public string Food_Name { get; set; }
-        public int Food_Price { get; set; }
+        public int Food_Unit_Price { get; set; }
+        public int Food_Total_Price { get; set; }
         public int Food_AMT { get; set; }
         public int OrderForm_ID { get; set; }
     }

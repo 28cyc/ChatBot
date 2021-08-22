@@ -15,8 +15,9 @@ namespace ChatBot.Controllers
 
         public ActionResult Index()
         {
-            var result = orderService.GetOrderForm();
-            ViewBag.oederList = result.ToList();
+            var result = orderService.GetOrderForm().ToList();
+            ViewBag.orderListCurrent = result.Where(x => x.OrderStatus != "預約").ToList();
+            ViewBag.orderListReserve = result.Where(x => x.OrderStatus == "預約").ToList();
             return View("OrderIndex");
         }
 
