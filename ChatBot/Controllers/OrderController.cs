@@ -64,5 +64,15 @@ namespace ChatBot.Controllers
         {
             return orderService.Checkout(OrderFormID);
         }
+
+        /// <summary>
+        /// 填寫回饋表單
+        /// </summary>
+        /// <returns></returns>
+        public string FillFeedBack(int OrderFormID, int ServiceSatisfaction, int FoodSatisfaction, int HealthSatisfaction, string Suggest)
+        {
+            return orderService.FillFeedBack(OrderFormID, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest);
+        }
+
     }
 }

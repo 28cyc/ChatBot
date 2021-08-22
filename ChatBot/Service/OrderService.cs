@@ -63,5 +63,16 @@ namespace ChatBot.Service
         {
             return orderDac.Checkout(OrderFormID);
         }
+
+        /// <summary>
+        /// 填寫回饋表單
+        /// </summary>
+        /// <returns></returns>
+        public string FillFeedBack(int OrderFormID, int ServiceSatisfaction, int FoodSatisfaction, int HealthSatisfaction, string Suggest)
+        {
+            DateTime DateTimeNow = DateTime.Now;
+            return orderDac.FillFeedBack(OrderFormID, DateTimeNow, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest);
+        }
+        
     }
 }

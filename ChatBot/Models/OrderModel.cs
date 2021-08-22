@@ -16,6 +16,11 @@ namespace ChatBot.Models
         /// 餐點清單
         /// </summary>
         public List<FoodListMoel> FOOD_LIST { get; set; }
+
+        /// <summary>
+        /// 用餐時間
+        /// </summary>
+        public DateTime EatingTime { get; set; }
     }
 
     public class FoodListMoel
