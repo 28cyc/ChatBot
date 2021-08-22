@@ -55,5 +55,14 @@ namespace ChatBot.Controllers
         {
             return Json(orderService.GetOrderDetail(OrderFormID).ToList());
         }
+
+        /// <summary>
+        /// 結帳
+        /// </summary>
+        /// <returns></returns>
+        public string Checkout(int OrderFormID)
+        {
+            return orderService.Checkout(OrderFormID);
+        }
     }
 }

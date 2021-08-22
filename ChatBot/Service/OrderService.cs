@@ -54,5 +54,14 @@ namespace ChatBot.Service
         {
             return orderDac.GetOrderDetail(OrderFormID);
         }
+
+        /// <summary>
+        /// 結帳
+        /// </summary>
+        /// <returns></returns>
+        public string Checkout(int OrderFormID)
+        {
+            return orderDac.Checkout(OrderFormID);
+        }
     }
 }
