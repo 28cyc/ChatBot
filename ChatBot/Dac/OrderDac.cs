@@ -66,7 +66,7 @@ namespace ChatBot.Dac
         /// <returns></returns>
         public IEnumerable<OrderFormModel> GetOrderForm()
         {
-            return DB.ExecuteQuery<OrderFormModel>("SELECT * FROM OrderForm");
+            return DB.ExecuteQuery<OrderFormModel>("SELECT * FROM OrderForm WHERE OrderStatus!='訂單完成'");
         }
 
         /// <summary>
@@ -79,7 +79,8 @@ namespace ChatBot.Dac
                                   FoodAmt AS Food_AMT, 
                                   OrderForm_ID AS OrderForm_ID, 
                                   FoodName AS Food_Name, 
-                                  FoodPrice AS Food_Price
+								  FoodPrice AS Food_Unit_Price,
+                                  FoodPrice*FoodAmt AS Food_Total_Price
                            FROM OrderDetail JOIN Food 
                            ON OrderDetail.Food_ID=Food.Food_ID
                            WHERE OrderForm_ID = {0} ";

@@ -58,7 +58,9 @@
         }
 
         #orderList {
+            overflow: auto;
             height: auto;
+            max-height: 450px;
             background-color: white;
             border-radius: 20px;
         }
@@ -71,12 +73,21 @@
             border-radius: 20px;
         }
 
-        button {
-            width: 70px;
+        .contentBtn {
+            width: 90px;
             height: 35px;
             border-style: none;
             border-radius: 10px;
-            color:white;
+            color: white;
+        }
+
+        .listBtn {
+            width: 100px;
+            height: 35px;
+            border-style: none;
+            border-radius: 10px 10px 0 0;
+            color: black;
+            background-color: white;
         }
     </style>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
