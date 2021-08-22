@@ -28,13 +28,22 @@ namespace ChatBot.Controllers
         }
 
         /// <summary>
-        /// 內用回傳桌號
+        /// 內用回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         public JsonResult GetFitDesk(int peopleNum)
         {
             return Json(deskService.getFitDesk(peopleNum));
+        }
+
+        /// <summary>
+        /// 預約回傳桌號、訂單編號
+        /// </summary>
+        /// <returns></returns>
+        public object ReserveGetFitDesk(int peopleNum, string Name, int Phone)
+        {
+            return deskService.ReserveGetFitDesk(peopleNum, Name, Phone);
         }
 
         /// <summary>
