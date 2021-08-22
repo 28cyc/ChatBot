@@ -66,6 +66,15 @@ namespace ChatBot.Controllers
         }
 
         /// <summary>
+        /// 回傳預計取餐時間
+        /// </summary>
+        /// <returns></returns>
+        public DateTime TakeFoodTime(int OrderFormID)
+        {
+            return orderService.TakeFoodTime(OrderFormID);
+        }
+
+        /// <summary>
         /// 填寫回饋表單
         /// </summary>
         /// <returns></returns>

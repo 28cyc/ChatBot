@@ -65,6 +65,15 @@ namespace ChatBot.Service
         }
 
         /// <summary>
+        /// 回傳預計取餐時間
+        /// </summary>
+        /// <returns></returns>
+        public DateTime TakeFoodTime(int OrderFormID)
+        {
+            return orderDac.TakeFoodTime(OrderFormID);
+        }
+
+        /// <summary>
         /// 填寫回饋表單
         /// </summary>
         /// <returns></returns>

@@ -110,6 +110,16 @@ namespace ChatBot.Dac
         }
 
         /// <summary>
+        /// 回傳預計取餐時間
+        /// </summary>
+        /// <returns></returns>
+        public DateTime TakeFoodTime(int OrderFormID)
+        {
+            DateTime time = DB.ExecuteQuery<DateTime>("select Eatingtime + '00:20:00' from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
+            return time;
+        }
+
+        /// <summary>
         /// 填寫回饋表單
         /// </summary>
         /// <returns></returns>
