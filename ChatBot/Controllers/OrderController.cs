@@ -47,7 +47,7 @@ namespace ChatBot.Controllers
         [HttpPost]
         public string OrderFood(OrderModel model)
         {
-            return orderService.OrderFood(model.DESK_NO, model.FOOD_LIST);
+            return orderService.OrderFood(model.OrderFormID, model.FOOD_LIST);
 		}
 
 

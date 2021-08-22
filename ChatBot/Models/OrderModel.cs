@@ -8,9 +8,9 @@ namespace ChatBot.Models
     public class OrderModel
     {
         /// <summary>
-        /// 桌號
+        /// 訂單編號
         /// </summary>
-        public int DESK_NO { get; set; }
+        public int OrderFormID { get; set; }
 
         /// <summary>
         /// 餐點清單

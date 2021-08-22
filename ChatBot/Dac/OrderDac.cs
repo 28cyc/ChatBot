@@ -35,15 +35,32 @@ namespace ChatBot.Dac
         /// 點餐
         /// </summary>
         /// <returns></returns>
-        public string OrderFood(int DeskNo, List<FoodListMoel> FOOD_LIST)
+        public string OrderFood(int OrderFormID, List<FoodListMoel> FOOD_LIST)
         {
+            //新增訂單細節
+            string sql = "";
+            bool flag = false;
             try
             {
-                string sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
-                FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, DeskNo }));
-                return "點餐成功";
+                sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
+                FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, OrderFormID }));
+                flag = true;
             }
             catch
+            {
+                
+            }
+            if (flag == true)
+            {
+                //更新桌子、訂單狀態
+                int DeskNo = DB.ExecuteCommand("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID);
+                sql = @"Update Desk set DeskStatus = '用餐中' where DeskNo = {0}
+                        Update OrderForm set OrderStatus = '用餐中' where OrderForm_ID = {1} ";
+                DB.ExecuteCommand(sql, DeskNo, OrderFormID);
+
+                return "點餐成功";
+            }
+            else
             {
                 return "點餐失敗";
             }

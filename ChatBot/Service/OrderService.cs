@@ -32,9 +32,9 @@ namespace ChatBot.Service
         /// 點餐
         /// </summary>
         /// <returns></returns>
-        public string OrderFood(int DeskNo, List<FoodListMoel> FOOD_LIST)
+        public string OrderFood(int OrderFormID, List<FoodListMoel> FOOD_LIST)
         {
-            return orderDac.OrderFood(DeskNo, FOOD_LIST);
+            return orderDac.OrderFood(OrderFormID, FOOD_LIST);
         }
 
         /// <summary>
