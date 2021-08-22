@@ -21,13 +21,23 @@ namespace ChatBot.Service
         }
 
         /// <summary>
-        /// 內用回傳桌號
+        /// 內用回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
         public object getFitDesk(int peopleNum)
         {
             DateTime DateTimeNow = DateTime.Now;
             return deskDac.getFitDesk(peopleNum, DateTimeNow);
+        }
+
+        /// <summary>
+        /// 預約回傳桌號、訂單編號
+        /// </summary>
+        /// <returns></returns>
+        public object ReserveGetFitDesk(int peopleNum, string Name, int Phone)
+        {
+            DateTime DateTimeNow = DateTime.Now;
+            return deskDac.ReserveGetFitDesk(peopleNum, Name, Phone, DateTimeNow);
         }
 
         /// <summary>

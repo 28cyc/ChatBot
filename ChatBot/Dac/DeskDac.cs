@@ -21,7 +21,7 @@ namespace ChatBot.Dac
         }
 
         /// <summary>
-        /// 內用回傳桌號
+        /// 內用回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
         public object getFitDesk(int peopleNum, DateTime DateTimeNow)
@@ -33,13 +33,46 @@ namespace ChatBot.Dac
             if (DeskNo != 0)
             {
                 //新增顧客資料(內用故無需輸入個資預設"內用顧客")
-                DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客')");
+                DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客') select SCOPE_IDENTITY()");
                
                 //建立訂單(根據取得之桌號與顧客編號建立訂單)
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
                 DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
                     new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID });
                 
+                //取得訂單編號
+                int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
+
+                //將桌號、訂單編號存入Json格式並回傳
+                var DeskOrderNo = new { DeskNo = DeskNo, OrderFormID = OrderFormID };
+                return DeskOrderNo;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 預約回傳桌號、訂單編號
+        /// </summary>
+        /// <returns></returns>
+        public object ReserveGetFitDesk(int peopleNum,string Name, int Phone, DateTime DateTimeNow)
+        {
+            int CustomerID = 0;
+
+            //取得可入座桌號
+            int DeskNo = DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+            if (DeskNo != 0)
+            {
+                //新增顧客資料
+                DB.ExecuteCommand("Insert into Customer (Name,Phone) Values ({0},{1}) select SCOPE_IDENTITY()", Name, Phone);
+
+                //建立訂單(根據取得之桌號與顧客編號建立訂單)
+                CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
+                DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
+                    new object[] { peopleNum, "In", "預約", DateTimeNow, "", DeskNo, CustomerID });
+
                 //取得訂單編號
                 int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
 
