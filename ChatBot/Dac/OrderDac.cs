@@ -47,7 +47,7 @@ namespace ChatBot.Dac
                 FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, OrderFormID }));
                 //更新桌子、訂單狀態
                 int DeskNo = DB.ExecuteCommand("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID);
-                sql = @"Update Desk set DeskStatus = '未出餐' where DeskNo = {0}
+                sql = @"Update Desk set DeskStatus = '用餐中' where DeskNo = {0}
                         Update OrderForm set OrderStatus = '未出餐' where OrderForm_ID = {1} ";
                 DB.ExecuteCommand(sql, DeskNo, OrderFormID);
 
@@ -97,8 +97,8 @@ namespace ChatBot.Dac
             {
                 //更新桌子、訂單狀態
                 int DeskNo = DB.ExecuteCommand("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID);
-                string sql = @"Update Desk set DeskStatus = '訂單完成' where DeskNo = {0}
-                        Update OrderForm set OrderStatus = '空桌' where OrderForm_ID = {1} ";
+                string sql = @"Update Desk set DeskStatus = '空桌' where DeskNo = {0}
+                        Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {1} ";
                 DB.ExecuteCommand(sql, DeskNo, OrderFormID);
                 flag = true;
             }
