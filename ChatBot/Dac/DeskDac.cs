@@ -33,7 +33,7 @@ namespace ChatBot.Dac
             if (DeskNo != 0)
             {
                 //新增顧客資料(內用故無需輸入個資預設"內用顧客")
-                DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客')");
+                DB.ExecuteCommand("Insert into Customer(Name) Values ('內用顧客') select SCOPE_IDENTITY()");
                
                 //建立訂單(根據取得之桌號與顧客編號建立訂單)
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
