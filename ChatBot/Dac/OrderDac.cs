@@ -33,6 +33,24 @@ namespace ChatBot.Dac
         }
 
         /// <summary>
+        /// 外帶
+        /// </summary>
+        /// <returns></returns>
+        public int Takeout(string Name, int Phone, DateTime dateTime )
+        {
+            //新增顧客資料
+            DB.ExecuteCommand("Insert into Customer (Name,Phone) Values ({0},{1}) select SCOPE_IDENTITY()", Name, Phone);
+            //建立訂單(根據取得之桌號與顧客編號建立訂單)
+            int CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
+            DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
+                    new object[] { 1, "Out", "外帶", dateTime, "", "", CustomerID });
+            //取得訂單編號
+            int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
+            
+            return OrderFormID;
+        }
+
+        /// <summary>
         /// 點餐
         /// </summary>
         /// <returns></returns>

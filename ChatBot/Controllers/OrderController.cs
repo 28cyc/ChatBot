@@ -46,6 +46,16 @@ namespace ChatBot.Controllers
         }
 
         /// <summary>
+        /// 外帶
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public int Takeout(string Name, int Phone)
+        {
+            return orderService.Takeout(Name, Phone);
+        }
+
+        /// <summary>
         /// 點餐
         /// </summary>
         /// <returns></returns>

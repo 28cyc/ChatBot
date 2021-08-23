@@ -30,8 +30,8 @@ namespace ChatBot.Dac
 
             //取得可入座桌號
             int DeskNo = DB.ExecuteQuery<int>(@"SELECT D.DeskNo
-                                                FROM orderform as O , Desk as D
-                                                WHERE D.Seat >= '5' AND EatingTime > EatingTime - '01:30:00' and EatingTime < EatingTime + '01:30:00' AND DeskStatus= '空桌'
+                                                FROM Desk as D
+                                                WHERE D.Seat >= {0} AND DeskStatus= '空桌'
                                                 Order by Seat ", peopleNum).FirstOrDefault();
             if (DeskNo != 0)
             {
@@ -62,14 +62,14 @@ namespace ChatBot.Dac
         /// 預約回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
-        public object ReserveGetFitDesk(int peopleNum,string Name, int Phone, DateTime DateTimeNow)
+        public object ReserveGetFitDesk(int peopleNum,string Name, int Phone, DateTime dateTime)
         {
             int CustomerID = 0;
 
             //取得可入座桌號
             int DeskNo = DB.ExecuteQuery<int>(@"SELECT D.DeskNo
-                                                FROM orderform as O , Desk as D
-                                                WHERE D.Seat >= '5' AND EatingTime > EatingTime - '01:30:00' and EatingTime < EatingTime + '01:30:00' AND DeskStatus= '空桌'
+                                                FROM Desk as D
+                                                WHERE D.Seat >= {0} AND DeskStatus= '空桌'
                                                 Order by Seat ", peopleNum).FirstOrDefault();
             if (DeskNo != 0)
             {
@@ -79,7 +79,7 @@ namespace ChatBot.Dac
                 //建立訂單(根據取得之桌號與顧客編號建立訂單)
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
                 DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
-                    new object[] { peopleNum, "In", "預約", DateTimeNow, "", DeskNo, CustomerID });
+                    new object[] { peopleNum, "In", "預約", dateTime, "", DeskNo, CustomerID });
 
                 //更新桌子狀態
                 DB.ExecuteCommand("Update Desk set DeskStatus = '已訂位' where DeskNo = {0}", DeskNo);
