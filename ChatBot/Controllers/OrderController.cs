@@ -87,5 +87,15 @@ namespace ChatBot.Controllers
             return orderService.FillFeedBack(OrderFormID, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest);
         }
 
+        /// <summary>
+        /// 完成出餐
+        /// </summary>
+        /// <param name="OrderFormID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string foodDeliver(int OrderFormID)
+        {
+            return orderService.foodDeliver(OrderFormID);
+        }
     }
 }

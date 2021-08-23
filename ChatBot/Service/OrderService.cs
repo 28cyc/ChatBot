@@ -82,6 +82,15 @@ namespace ChatBot.Service
             DateTime DateTimeNow = DateTime.Now;
             return orderDac.FillFeedBack(OrderFormID, DateTimeNow, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest);
         }
-        
+
+        /// <summary>
+        /// 完成出餐
+        /// </summary>
+        /// <param name="OrderFormID"></param>
+        /// <returns></returns>
+        public string foodDeliver(int OrderFormID)
+        {
+            return orderDac.foodDeliver(OrderFormID);
+        }
     }
 }

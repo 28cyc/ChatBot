@@ -1,7 +1,7 @@
 ﻿<br />
 <div style="display: flex;width:100%;justify-content:space-between">
     <div style="width: 35%;">
-        <div style="display: flex;width: 70%;justify-content:space-between;margin:0 auto;">
+        <div style="display: flex;width: 60%;justify-content:space-between;margin:0 auto;">
             <button class="listBtn" onclick="currentList()"><h4>現場</h4></button>
             <button class="listBtn" onclick="reserveList()"><h4>預約</h4></button>
         </div>
@@ -16,10 +16,10 @@
                             <p>人數：@item.PeopleNum</p>
                             @if (@item.OrderStatus == "未出餐")
                             {
-                            <p><span>訂單狀態：</span><span style="color:red">@item.OrderStatus</span></p>
+                                <p><span>訂單狀態：</span><span style="color:red">@item.OrderStatus</span></p>
                             }
                             else
-                            { 
+                            {
                                 <p>訂單狀態：@item.OrderStatus</p>
                             }
                             <p>用餐時間：@item.EatingTime</p>
@@ -73,13 +73,14 @@
 </div>
 
 <script type="text/javascript">
-    var selectedDesk = 0;
+    var OrderFormID = 0, selectedDesk = 0;
 
     function showDetail(data) {
         var orderContent = document.getElementById("orderContent");
         $('#currentList tr').css('background-color', '');
         $('#reserveList tr').css('background-color', '');
         $('#' + data.OrderForm_ID).css('background-color', '#E0E0E0');
+        OrderFormID = data.OrderForm_ID;
         selectedDesk = data.DeskNo;
         orderContent.getElementsByTagName("h3")[0].innerHTML = "桌號：" + selectedDesk;
         orderContent.getElementsByTagName("p")[0].innerHTML = "訂單編號：" + data.OrderForm_ID;
@@ -126,7 +127,7 @@
         } else {
             data.forEach(function (food) {
                 foodNameString += "<p>" + food.Food_Name + " x " + food.Food_AMT + "</p>";
-                foodPriceString += "<p>" + food.Food_Unit_Price.toLocaleString()+ " x " + food.Food_AMT + "</p>";
+                foodPriceString += "<p>" + food.Food_Unit_Price.toLocaleString() + " x " + food.Food_AMT + "</p>";
                 foodTotal += food.Food_Total_Price;
             });
         }
@@ -146,6 +147,21 @@
     }
 
     function foodDone() {
-        alert("已送達第" + selectedDesk + "桌所有餐點");
+        if (confirm("已送達第" + selectedDesk + "桌所有餐點")) {
+            $.ajax({
+                type: 'POST',
+                url: "/Order/foodDeliver",
+                dataType: 'text',
+                data: {
+                    OrderFormID: OrderFormID,
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (data) {
+                    alert("錯誤!");
+                }
+            });
+        };
     }
 </script>
