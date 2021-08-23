@@ -29,6 +29,16 @@ namespace ChatBot.Service
         }
 
         /// <summary>
+        /// 外帶
+        /// </summary>
+        /// <returns></returns>
+        public int Takeout(string Name, int Phone)
+        {
+            DateTime DateTimeNow = DateTime.Now;
+            return orderDac.Takeout(Name, Phone, DateTimeNow);
+        }
+
+        /// <summary>
         /// 點餐
         /// </summary>
         /// <returns></returns>
