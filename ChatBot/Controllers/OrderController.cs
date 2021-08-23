@@ -16,8 +16,12 @@ namespace ChatBot.Controllers
         public ActionResult Index()
         {
             var result = orderService.GetOrderForm().ToList();
-            ViewBag.orderListCurrent = result.Where(x => x.OrderStatus != "預約").ToList();
-            ViewBag.orderListReserve = result.Where(x => x.OrderStatus == "預約").ToList();
+            //現場
+            ViewBag.orderListCurrent = result.Where(x => x.InOrOut == "In" && x.OrderStatus != "預約").ToList();
+            //預約
+            ViewBag.orderListReserve = result.Where(x => x.InOrOut == "In" && x.OrderStatus == "預約").ToList();
+            //外帶
+            ViewBag.orderListTakeout = result.Where(x => x.InOrOut == "Out").ToList();
             return View("OrderIndex");
         }
 
