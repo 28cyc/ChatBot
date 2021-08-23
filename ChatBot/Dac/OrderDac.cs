@@ -138,5 +138,24 @@ namespace ChatBot.Dac
                 return "填寫失敗";
             }
         }
+
+        /// <summary>
+        /// 完成出餐
+        /// </summary>
+        /// <param name="OrderFormID"></param>
+        /// <returns></returns>
+        public string foodDeliver(int OrderFormID)
+        {
+            try
+            {
+                string sql = "update orderform set orderstatus = '已出餐' where orderform_ID = {0} AND orderstatus = '未出餐'";
+                DB.ExecuteCommand(sql, OrderFormID);
+                return "出餐成功";
+            }
+            catch
+            {
+                return "出餐失敗";
+            }
+        }
     }
 }
