@@ -43,7 +43,7 @@ namespace ChatBot.Dac
             //建立訂單(根據取得之桌號與顧客編號建立訂單)
             int CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
             DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
-                    new object[] { 1, "In", "外帶", dateTime, "", "", CustomerID });
+                    new object[] { 1, "Out", "外帶", dateTime, "", "", CustomerID });
             //取得訂單編號
             int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
             
