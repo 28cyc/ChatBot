@@ -51,8 +51,8 @@ namespace ChatBot.Controllers
             return orderService.OrderFood(model.OrderFormID, model.FOOD_LIST);
 		}
 
-
-		public JsonResult getOrderDetail(int OrderFormID)
+        [HttpPost]
+        public JsonResult getOrderDetail(int OrderFormID)
         {
             return Json(orderService.GetOrderDetail(OrderFormID).ToList());
         }
@@ -61,6 +61,7 @@ namespace ChatBot.Controllers
         /// 結帳
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public string Checkout(int OrderFormID)
         {
             return orderService.Checkout(OrderFormID);
@@ -70,6 +71,7 @@ namespace ChatBot.Controllers
         /// 回傳預計取餐時間
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public DateTime TakeFoodTime(int OrderFormID)
         {
             return orderService.TakeFoodTime(OrderFormID);
@@ -79,6 +81,7 @@ namespace ChatBot.Controllers
         /// 填寫回饋表單
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public string FillFeedBack(int OrderFormID, int ServiceSatisfaction, int FoodSatisfaction, int HealthSatisfaction, string Suggest)
         {
             return orderService.FillFeedBack(OrderFormID, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest);

@@ -41,6 +41,7 @@ namespace ChatBot.Controllers
         /// 預約回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public object ReserveGetFitDesk(int peopleNum, string Name, int Phone)
         {
             return deskService.ReserveGetFitDesk(peopleNum, Name, Phone);

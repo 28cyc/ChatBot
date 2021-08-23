@@ -93,7 +93,6 @@ namespace ChatBot.Dac
         /// <returns></returns>
         public string Checkout(int OrderFormID)
         {
-            bool flag = false;
             try
             {
                 //更新桌子、訂單狀態
@@ -101,13 +100,13 @@ namespace ChatBot.Dac
                 string sql = @"Update Desk set DeskStatus = '空桌' where DeskNo = {0}
                         Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {1} ";
                 DB.ExecuteCommand(sql, DeskNo, OrderFormID);
-                flag = true;
+                return "結帳成功";
             }
             catch
             {
-
+                return "結帳失敗";
             }
-            return (flag == true) ? "結帳成功" : "結帳失敗";
+            
         }
 
         /// <summary>

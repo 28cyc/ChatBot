@@ -29,7 +29,10 @@ namespace ChatBot.Dac
             int CustomerID = 0;
 
             //取得可入座桌號
-            int DeskNo = DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+            int DeskNo = DB.ExecuteQuery<int>(@"SELECT D.DeskNo
+                                                FROM orderform as O , Desk as D
+                                                WHERE D.Seat >= '5' AND EatingTime > EatingTime - '01:30:00' and EatingTime < EatingTime + '01:30:00' AND DeskStatus= '空桌'
+                                                Order by Seat ", peopleNum).FirstOrDefault();
             if (DeskNo != 0)
             {
                 //新增顧客資料(內用故無需輸入個資預設"內用顧客")
@@ -39,6 +42,8 @@ namespace ChatBot.Dac
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
                 DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
                     new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID });
+                //更新桌子狀態
+                DB.ExecuteCommand("Update Desk set DeskStatus = '已訂位' where DeskNo = {0}", DeskNo);
                 
                 //取得訂單編號
                 int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
@@ -62,7 +67,10 @@ namespace ChatBot.Dac
             int CustomerID = 0;
 
             //取得可入座桌號
-            int DeskNo = DB.ExecuteQuery<int>("SELECT DeskNo FROM Desk WHERE Seat >= {0} ORDER BY Seat ", peopleNum).FirstOrDefault();
+            int DeskNo = DB.ExecuteQuery<int>(@"SELECT D.DeskNo
+                                                FROM orderform as O , Desk as D
+                                                WHERE D.Seat >= '5' AND EatingTime > EatingTime - '01:30:00' and EatingTime < EatingTime + '01:30:00' AND DeskStatus= '空桌'
+                                                Order by Seat ", peopleNum).FirstOrDefault();
             if (DeskNo != 0)
             {
                 //新增顧客資料
@@ -72,6 +80,9 @@ namespace ChatBot.Dac
                 CustomerID = DB.ExecuteQuery<int>("SELECT Customer_ID from Customer order by Customer_ID desc").FirstOrDefault();
                 DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
                     new object[] { peopleNum, "In", "預約", DateTimeNow, "", DeskNo, CustomerID });
+
+                //更新桌子狀態
+                DB.ExecuteCommand("Update Desk set DeskStatus = '已訂位' where DeskNo = {0}", DeskNo);
 
                 //取得訂單編號
                 int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
