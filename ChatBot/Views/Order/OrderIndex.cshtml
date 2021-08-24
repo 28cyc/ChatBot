@@ -174,7 +174,7 @@
     }
 
     function foodDone() {
-        if (confirm("已送達第" + selectedDesk + "桌所有餐點")) {
+        if (confirm("已完成訂單編號 " + OrderFormID+ " 所有餐點")) {
             $.ajax({
                 type: 'POST',
                 url: "/Order/foodDeliver",
