@@ -90,7 +90,7 @@ namespace ChatBot.Service
         public string TakeFoodTime(int OrderFormID)
         {
             DateTime returntime = orderDac.TakeFoodTime(OrderFormID);
-            string time = returntime.Month + "月" + returntime.Day + "日" + returntime.Minute + "點" + returntime.Second + "分";
+            string time = returntime.Month + "月" + returntime.Day + "日" + returntime.Hour + "點" + returntime.Minute + "分";
             return time;
         }
 
