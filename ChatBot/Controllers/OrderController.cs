@@ -78,6 +78,16 @@ namespace ChatBot.Controllers
         }
 
         /// <summary>
+        /// 外帶結帳
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public string TakeOutCheckout(int OrderFormID)
+        {
+            return orderService.Checkout(OrderFormID);
+        }
+
+        /// <summary>
         /// 回傳預計取餐時間
         /// </summary>
         /// <returns></returns>

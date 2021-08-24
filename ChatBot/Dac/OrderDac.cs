@@ -124,7 +124,26 @@ namespace ChatBot.Dac
             {
                 return "結帳失敗";
             }
-            
+        }
+
+        /// <summary>
+        /// 外帶結帳
+        /// </summary>
+        /// <returns></returns>
+        public string TakeOutCheckout(int OrderFormID)
+        {
+            try
+            {
+                //更新訂單狀態
+                string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {0} ";
+                DB.ExecuteCommand(sql, OrderFormID);
+                return "結帳成功";
+            }
+            catch
+            {
+                return "結帳失敗";
+            }
+
         }
 
         /// <summary>
