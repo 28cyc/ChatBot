@@ -42,9 +42,9 @@ namespace ChatBot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public object ReserveGetFitDesk(int peopleNum, string Name, string Phone, DateTime dateTime)
+        public JsonResult ReserveGetFitDesk(int peopleNum, string Name, string Phone, DateTime dateTime)
         {
-            return deskService.ReserveGetFitDesk(peopleNum, Name, Phone, dateTime);
+            return Json(deskService.ReserveGetFitDesk(peopleNum, Name, Phone, dateTime));
         }
 
         /// <summary>
