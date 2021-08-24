@@ -9,16 +9,16 @@ using System.Web;
 
 namespace ChatBot.Dac
 {
-	public class OrderDac: _Dac
-	{
-		/// <summary>
-		/// 取得所有餐點資料
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerable<FoodModel> getAllFood()
-		{
-			return DB.ExecuteQuery<FoodModel>("SELECT * FROM Food");
-		}
+    public class OrderDac : _Dac
+    {
+        /// <summary>
+        /// 取得所有餐點資料
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<FoodModel> getAllFood()
+        {
+            return DB.ExecuteQuery<FoodModel>("SELECT * FROM Food");
+        }
 
         /// <summary>
         /// 輸入電話號碼報到
@@ -26,7 +26,7 @@ namespace ChatBot.Dac
         /// <returns></returns>
         public bool CompareWithPhone(string Phone)
         {
-            string sql =@"select Phone from OrderForm O 
+            string sql = @"select Phone from OrderForm O 
                                     join Customer C on O.Customer_ID = C.Customer_ID 
                                     where Phone = {0}";
             return DB.ExecuteQuery<string>(sql, Phone).Any();
@@ -36,7 +36,7 @@ namespace ChatBot.Dac
         /// 外帶
         /// </summary>
         /// <returns></returns>
-        public int Takeout(string Name, string Phone, DateTime dateTime )
+        public int Takeout(string Name, string Phone, DateTime dateTime)
         {
             //新增顧客資料
             DB.ExecuteCommand("Insert into Customer (Name,Phone) Values ({0},{1}) select SCOPE_IDENTITY()", Name, Phone);
@@ -46,7 +46,7 @@ namespace ChatBot.Dac
                     new object[] { 1, "Out", "外帶", dateTime, "", "", CustomerID });
             //取得訂單編號
             int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();
-            
+
             return OrderFormID;
         }
 
@@ -58,7 +58,7 @@ namespace ChatBot.Dac
         {
             //新增訂單細節
             string sql = "";
-            
+
             try
             {
                 sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
@@ -75,7 +75,7 @@ namespace ChatBot.Dac
             {
                 return "點餐失敗";
             }
-            
+
         }
 
         /// <summary>
@@ -134,18 +134,9 @@ namespace ChatBot.Dac
         {
             try
             {
-                string OrderStatus = DB.ExecuteQuery<string>("select OrderStatus from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
-                //更新訂單狀態
-                if (OrderStatus == "已出餐")
-                {
-                    string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {0} ";
-                    DB.ExecuteCommand(sql, OrderFormID);
-                    return "結帳成功";
-                }
-                else
-                {
-                    return "結帳失敗";
-                }
+                string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderStatus = '已出餐' and OrderForm_ID = {0} ";
+                DB.ExecuteCommand(sql, OrderFormID);
+                return "結帳成功";
             }
             catch
             {
@@ -161,7 +152,6 @@ namespace ChatBot.Dac
         public DateTime TakeFoodTime(int OrderFormID)
         {
             DateTime time = DB.ExecuteQuery<DateTime>("select Eatingtime + '00:20:00' from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
-            
             return time;
         }
 
@@ -175,7 +165,7 @@ namespace ChatBot.Dac
             try
             {
                 sql = "Insert QA values({0},{1},{2},{3},{4},{5})";
-                DB.ExecuteCommand(sql, new object[] { DateTimeNow, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest, OrderFormID});
+                DB.ExecuteCommand(sql, new object[] { DateTimeNow, ServiceSatisfaction, FoodSatisfaction, HealthSatisfaction, Suggest, OrderFormID });
                 return "填寫成功";
             }
             catch
