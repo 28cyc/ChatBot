@@ -32,7 +32,7 @@ namespace ChatBot.Service
         /// 外帶
         /// </summary>
         /// <returns></returns>
-        public int Takeout(string Name, int Phone)
+        public int Takeout(string Name, string Phone)
         {
             DateTime DateTimeNow = DateTime.Now;
             return orderDac.Takeout(Name, Phone, DateTimeNow);
@@ -83,13 +83,15 @@ namespace ChatBot.Service
             return orderDac.Checkout(OrderFormID);
         }
 
-            /// <summary>
-            /// 回傳預計取餐時間
-            /// </summary>
-            /// <returns></returns>
-            public DateTime TakeFoodTime(int OrderFormID)
+        /// <summary>
+        /// 回傳預計取餐時間
+        /// </summary>
+        /// <returns></returns>
+        public string TakeFoodTime(int OrderFormID)
         {
-            return orderDac.TakeFoodTime(OrderFormID);
+            DateTime returntime = orderDac.TakeFoodTime(OrderFormID);
+            string time = returntime.Month + "月" + returntime.Day + "日" + returntime.Minute + "點" + returntime.Second + "分";
+            return time;
         }
 
         /// <summary>

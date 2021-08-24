@@ -34,7 +34,7 @@ namespace ChatBot.Service
         /// 預約回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
-        public object ReserveGetFitDesk(int peopleNum, string Name, int Phone, DateTime dateTime)
+        public object ReserveGetFitDesk(int peopleNum, string Name, string Phone, DateTime dateTime)
         {
             DateTime DateTimeNow = DateTime.Now;
             return deskDac.ReserveGetFitDesk(peopleNum, Name, Phone, dateTime);

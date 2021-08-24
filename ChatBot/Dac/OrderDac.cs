@@ -36,7 +36,7 @@ namespace ChatBot.Dac
         /// 外帶
         /// </summary>
         /// <returns></returns>
-        public int Takeout(string Name, int Phone, DateTime dateTime )
+        public int Takeout(string Name, string Phone, DateTime dateTime )
         {
             //新增顧客資料
             DB.ExecuteCommand("Insert into Customer (Name,Phone) Values ({0},{1}) select SCOPE_IDENTITY()", Name, Phone);
@@ -134,10 +134,18 @@ namespace ChatBot.Dac
         {
             try
             {
+                string OrderStatus = DB.ExecuteQuery<string>("select OrderStatus from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
                 //更新訂單狀態
-                string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {0} ";
-                DB.ExecuteCommand(sql, OrderFormID);
-                return "結帳成功";
+                if (OrderStatus == "已出餐")
+                {
+                    string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {0} ";
+                    DB.ExecuteCommand(sql, OrderFormID);
+                    return "結帳成功";
+                }
+                else
+                {
+                    return "結帳失敗";
+                }
             }
             catch
             {
@@ -153,6 +161,7 @@ namespace ChatBot.Dac
         public DateTime TakeFoodTime(int OrderFormID)
         {
             DateTime time = DB.ExecuteQuery<DateTime>("select Eatingtime + '00:20:00' from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
+            
             return time;
         }
 

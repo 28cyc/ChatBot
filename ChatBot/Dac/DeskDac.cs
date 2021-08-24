@@ -62,7 +62,7 @@ namespace ChatBot.Dac
         /// 預約回傳桌號、訂單編號
         /// </summary>
         /// <returns></returns>
-        public object ReserveGetFitDesk(int peopleNum,string Name, int Phone, DateTime dateTime)
+        public object ReserveGetFitDesk(int peopleNum,string Name, string Phone, DateTime dateTime)
         {
             int CustomerID = 0;
 

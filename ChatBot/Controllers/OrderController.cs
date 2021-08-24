@@ -52,7 +52,7 @@ namespace ChatBot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public int Takeout(string Name, int Phone)
+        public int Takeout(string Name, string Phone)
         {
             return orderService.Takeout(Name, Phone);
         }
@@ -98,7 +98,7 @@ namespace ChatBot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public DateTime TakeFoodTime(int OrderFormID)
+        public string TakeFoodTime(int OrderFormID)
         {
             return orderService.TakeFoodTime(OrderFormID);
         }
