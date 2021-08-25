@@ -64,7 +64,7 @@ namespace ChatBot.Dac
                 sql = "Insert into OrderDetail(FoodAmt,Food_ID,OrderForm_ID) Values ({0},{1},{2})";
                 FOOD_LIST.ForEach(item => DB.ExecuteCommand(sql, new object[] { item.FOOD_AMT, item.FOOD_ID, OrderFormID }));
                 //更新桌子、訂單狀態
-                int DeskNo = DB.ExecuteCommand("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID);
+                int DeskNo = DB.ExecuteQuery<int>("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
                 sql = @"Update Desk set DeskStatus = '用餐中' where DeskNo = {0}
                         Update OrderForm set OrderStatus = '未出餐' where OrderForm_ID = {1} ";
                 DB.ExecuteCommand(sql, DeskNo, OrderFormID);
