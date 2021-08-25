@@ -84,7 +84,7 @@ namespace ChatBot.Dac
         /// <returns></returns>
         public IEnumerable<OrderFormModel> GetOrderForm()
         {
-            return DB.ExecuteQuery<OrderFormModel>("SELECT * FROM OrderForm WHERE OrderStatus!='訂單完成'");
+            return DB.ExecuteQuery<OrderFormModel>("SELECT * FROM OrderForm WHERE OrderStatus!='訂單完成' order by orderform_ID desc");
         }
 
         /// <summary>
