@@ -21,7 +21,7 @@ namespace ChatBot.Controllers
             //預約
             ViewBag.orderListReserve = result.Where(x => x.InOrOut == "In" && x.OrderStatus == "預約").ToList();
             //外帶
-            var orderListTakeout = result.Where(x => x.InOrOut == "Out").ToList();
+            var orderListTakeout = result.Where(x => x.InOrOut == "Out" && x.OrderStatus != "已出餐").ToList();
             orderListTakeout.ForEach(x => x.EatingTime= x.EatingTime.AddMinutes(20));
             ViewBag.orderListTakeout = orderListTakeout;
             return View("OrderIndex");
