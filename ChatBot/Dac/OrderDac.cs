@@ -134,7 +134,7 @@ namespace ChatBot.Dac
         {
             try
             {
-                string sql = @"Update OrderForm set OrderStatus = '訂單完成' where OrderStatus = '已出餐' and OrderForm_ID = {0} ";
+                string sql = @"Update OrderForm set OrderStatus = '未出餐' where OrderForm_ID = {0} ";
                 DB.ExecuteCommand(sql, OrderFormID);
                 return "結帳成功";
             }
