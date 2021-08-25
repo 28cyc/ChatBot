@@ -23,7 +23,7 @@
                             {
                                 <p>訂單狀態：@item.OrderStatus</p>
                             }
-                            <p>用餐時間：@item.EatingTime</p>
+                            <p>用餐時間：@item.EatingTime.ToString("yyyy/MM/dd hh:mm")</p>
                         </td>
                     </tr>
                 }
@@ -37,7 +37,7 @@
                         <td>
                             <p>人數：@item.PeopleNum</p>
                             <p>訂單狀態：@item.OrderStatus</p>
-                            <p>用餐時間：@item.EatingTime</p>
+                            <p>用餐時間：@item.EatingTime.ToString("yyyy/MM/dd hh:mm")</p>
                         </td>
                     </tr>
                 }
@@ -58,7 +58,7 @@
                             {
                                 <p>訂單狀態：@item.OrderStatus</p>
                             }
-                            <p>取餐時間：@item.EatingTime</p>
+                            <p>取餐時間：@item.EatingTime.ToString("yyyy/MM/dd hh:mm")</p>
                         </td>
                     </tr>
                 }
