@@ -43,7 +43,7 @@ namespace ChatBot.Dac
                 DB.ExecuteCommand("Insert into OrderForm Values ({0},{1},{2},{3},{4},{5},{6})",
                     new object[] { peopleNum, "In", "未點餐", DateTimeNow, "", DeskNo, CustomerID });
                 //更新桌子狀態
-                DB.ExecuteCommand("Update Desk set DeskStatus = '已訂位' where DeskNo = {0}", DeskNo);
+                DB.ExecuteCommand("Update Desk set DeskStatus = '用餐中' where DeskNo = {0}", DeskNo);
                 
                 //取得訂單編號
                 int OrderFormID = DB.ExecuteQuery<int>("select OrderForm_ID from OrderForm where Customer_ID = {0} ", CustomerID).FirstOrDefault();

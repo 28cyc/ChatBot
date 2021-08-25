@@ -113,12 +113,20 @@ namespace ChatBot.Dac
         {
             try
             {
-                //更新桌子、訂單狀態
-                int DeskNo = DB.ExecuteCommand("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID);
-                string sql = @"Update Desk set DeskStatus = '空桌' where DeskNo = {0}
+                string Ostatus = DB.ExecuteQuery<string>("select OrderStatus from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
+                if (Ostatus == "已出餐")
+                {
+                    //更新桌子、訂單狀態
+                    int DeskNo = DB.ExecuteQuery<int>("select DeskNo from OrderForm where OrderForm_ID = {0}", OrderFormID).FirstOrDefault();
+                    string sql = @"Update Desk set DeskStatus = '空桌' where DeskNo = {0}
                         Update OrderForm set OrderStatus = '訂單完成' where OrderForm_ID = {1} ";
-                DB.ExecuteCommand(sql, DeskNo, OrderFormID);
-                return "結帳成功";
+                    DB.ExecuteCommand(sql, DeskNo, OrderFormID);
+                    return "結帳成功";
+                }
+                else
+                {
+                    return "尚未出餐完成，請等出餐完畢再行結帳！";
+                }
             }
             catch
             {
